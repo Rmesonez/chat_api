@@ -5,7 +5,7 @@ const messagesRoutes = require('./routes/messages.routes.js');
 const conversationsRoutes = require('./routes/conversations.routes.js');
 const typesRoutes = require('./routes/types.routes.js');
 const authRoutes = require('./routes/auth.routes.js');
-const usersMessagesRoutes = require('./routes/usersMessages.routes.js');
+const usersConversationsRoutes = require('./routes/usersConversations.routes.js');
 require('dotenv').config();
 
 const cors = require('cors');
@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 4000;
 //middlewares
 app.use(cors());
 app.use(express.json());
-app.use(usersRoutes, authRoutes, messagesRoutes, conversationsRoutes, typesRoutes, usersMessagesRoutes);
+app.use(usersRoutes, authRoutes, messagesRoutes, conversationsRoutes, typesRoutes, usersConversationsRoutes);
 
 async function testConnection() {
     try {

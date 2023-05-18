@@ -17,10 +17,6 @@ const Conversations = db.define('conversations', {
     type_id: {
         type: DataTypes.INTEGER,
         allowNull: false
-    },
-    user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     }
 },{
     timestamps: false

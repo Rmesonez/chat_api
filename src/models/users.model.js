@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../database/database');
-const Conversations = require('../models/conversations.model');
+const Messages = require('./messages.model');
 
 
 const Users = db.define('users', {
@@ -38,8 +38,8 @@ const Users = db.define('users', {
     timestamps: false
 });
 
-Users.hasMany(Conversations, { foreignKey: 'user_id' });
+Users.hasMany(Messages, { foreignKey: 'user_id' });
 
-Conversations.belongsTo(Users, { foreignKey: 'user_id' });
+Messages.belongsTo(Users, { foreignKey: 'user_id' });
 
 module.exports = Users;

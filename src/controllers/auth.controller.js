@@ -19,6 +19,8 @@ const login = async (req, res) => {
                 }, process.env.SECRET_KEY, {
                     expiresIn: process.env.EXPIRES_IN
                 });
+                user.token = token;
+                delete user.password;
                 res.status(202).json({
                     user: user,
                     token: token
@@ -46,7 +48,6 @@ const signup = async (req, res) => {
     try {
         let password = req.body.password = bcrypt.hashSync(req.body.password, Number.parseInt(process.env.ROUNDS));
         const user = await Users.create({
-            image: req.body.image,
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             username: req.body.username,
@@ -58,10 +59,9 @@ const signup = async (req, res) => {
         }, process.env.SECRET_KEY, {
             expiresIn: process.env.EXPIRES_IN
             });
-        res.status(201).json({
-            user: user,
-            token: token
-        });
+            user.token = token;
+            delete user.password;
+            res.status(201).json(user);
     } catch (error) {
         res.status(400).json({
             message: 'Invalid data',

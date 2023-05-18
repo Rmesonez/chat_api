@@ -7,12 +7,13 @@ const {
     deleteConversation,
     getOneConversation
 } = require('../controllers/conversations.controller');
+const auth = require('../middlewares/auth.middleware');
 
 //get all conversations
 router.get('/api/conversations', getAllConversations);
 
 //create a new conversation
-router.post('/api/conversations', createConversation);
+router.post('/api/conversations', auth, createConversation);
 
 //get a conversation by id
 router.get('/api/conversations/:id', getOneConversation);

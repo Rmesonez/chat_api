@@ -1,9 +1,5 @@
 const { DataTypes } = require('sequelize');
 const db = require('../database/database');
-const Users = require('../models/users.model');
-const Conversations = require('../models/conversations.model');
-
-
 
 const Messages = db.define('messages', {
     id: {
@@ -16,15 +12,12 @@ const Messages = db.define('messages', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    conversation_id: {
+    user_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     }
 },{
     timestamps: false
 });
-
-
-
 
 module.exports = Messages;
