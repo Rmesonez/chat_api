@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         const user = await Users.findOne({
             where: {
@@ -12,7 +12,7 @@ const login = async (req, res) => {
             }
         });
         if (user) {
-            const equals = bcrypt.compareSync(req.body.password, user.password);
+            const equals = await bcrypt.compare(req.body.password, user.password);
             if (equals) {
                 let token = jwt.sign({
                     user: user
@@ -26,13 +26,17 @@ const login = async (req, res) => {
                     token: token
                 });
             } else {
-                res.status(401).json({
-                    message: 'Invalid password'
+                return next({
+                    status: 400,
+                    message: 'Invalid data',
+                    error: 'Invalid password'
                 });
             }
         } else {
-            res.status(401).json({
-                message: 'Invalid email'
+            return next({
+                status: 400,
+                message: 'email not exist',
+                error: 'Invalid email'
             });
         }
     } catch (error) {
@@ -46,7 +50,7 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        let password = req.body.password = bcrypt.hashSync(req.body.password, Number.parseInt(process.env.ROUNDS));
+        let password = req.body.password = await  bcrypt.hash(req.body.password, Number.parseInt(process.env.ROUNDS));
         const {avatar, firstname, lastname, username, email} = req.body;
         const user = await Users.create({avatar, firstname, lastname, username, email, password});
         const token = jwt.sign({

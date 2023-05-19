@@ -9,6 +9,7 @@ const {
     getOneUser,
     getAllUsersInfo
 } = require('../controllers/users.controller');
+const { validateUpdate } = require('../validators/users.validators');
 
 
 //get all users
@@ -24,7 +25,7 @@ router.get('/api/users/info', getAllUsersInfo);
 router.get('/api/users/:id', getOneUser);
 
 //update a user by id
-router.put('/api/users/:id', updateUser);
+router.put('/api/users/:id',validateUpdate, updateUser);
 
 //delete a user by id
 router.delete('/api/users/:id', deleteUser);

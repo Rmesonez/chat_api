@@ -7,18 +7,6 @@ const getAllConversations = async (req, res) => {
     try {
         const getConversations = await Conversations.findAll({
             attributes: ['id', 'title'],
-            include: [{
-                model: Types,
-                attributes: ['type']
-            },{
-                    model: Messages,
-                    attributes: ['content'],
-                    include: [{
-                        model: Users,
-                        attributes: [ 'username']
-                }]
-            }
-        ]
         });
         res.status(200).json(getConversations);
     } catch (error) {
