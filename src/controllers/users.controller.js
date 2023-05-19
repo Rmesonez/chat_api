@@ -7,7 +7,7 @@ const Types = require('../models/types.model');
 const getAllUsers = async (req, res) => {
     try {
         const getUsers = await Users.findAll({
-            attributes: ['id', 'firstname', 'lastname', 'username', 'email']
+            attributes: ['id', 'avatar', 'firstname', 'lastname', 'username', 'email']
         });
         res.status(200).json(getUsers);
     } catch (error) {
@@ -30,13 +30,13 @@ const getAllUsers = async (req, res) => {
 // };
 
 const updateUser = async (req, res) => {
-    const {firstname, lastname, username } = req.body;
+    const {avatar, firstname, lastname, username } = req.body;
     try {
         const updateUser = await Users.update(
-            { firstname, lastname, username },
+            { avatar, firstname, lastname, username },
             { where: { id: req.params.id }
         });
-        res.status(202).json(updateUser);
+        res.status(202).send();
     } catch (error) {
         return res.status(500).json({
             message: 'Something went wrong cannot update a User',
@@ -47,9 +47,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         await Users.destroy({ where: { id: req.params.id } });
-        res.status(204).json({
-            message: 'User deleted successfully',
-        });
+        res.status(204).send();
     } catch (error) {
         return res.status(500).json({
             message: 'Something went wrong cannot delete a user',
@@ -61,10 +59,23 @@ const getOneUser = async (req, res) => {
     try{
         const getUser = await Users.findOne(
             { where: { id: req.params.id },
-            attributes: ['id', 'firstname', 'lastname', 'username', 'email'],
+            attributes: ['id', 'avatar', 'firstname', 'lastname', 'username', 'email'],
             include: [  
-                { model: Conversations, attributes: ['id', 'title'], include: [{ model: Types, attributes: ['id', 'type'] }] },
-                { model: Messages, attributes: ['id', 'content'] },
+                { 
+                    model: Conversations, attributes: ['id', 'title'], 
+                    include: [
+                        {
+                            model: Types, attributes: ['id', 'type'],                            
+                    },
+                    {
+                        model: Messages, attributes: ['id', 'content'],
+                        include: [
+                            {
+                                model: Users, attributes: ['id', 'username']
+                            }]
+                    }
+                ] 
+                },
             ]
         });
         if(!getUser){
@@ -80,6 +91,35 @@ const getOneUser = async (req, res) => {
     }
 };
 
+const getAllUsersInfo = async (req, res) => {
+    try {
+        const getUsers = await Users.findAll({
+            attributes: ['id', 'avatar', 'firstname', 'lastname', 'username', 'email'],
+            include: [  
+                { 
+                    model: Conversations, attributes: ['id', 'title'], 
+                    include: [
+                        {
+                            model: Types, attributes: ['id', 'type'],                            
+                    },
+                    {
+                        model: Messages, attributes: ['id', 'content'],
+                        include: [
+                            {
+                                model: Users, attributes: ['id', 'username']
+                            }]
+                    }
+                ] 
+                },
+            ]
+        });
+        res.status(200).json(getUsers);
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Something went wrong cannot get the Users',
+        });
+    }
+};
 
 
 module.exports = {
@@ -88,4 +128,5 @@ module.exports = {
     updateUser,
     deleteUser,
     getOneUser,
+    getAllUsersInfo
 };

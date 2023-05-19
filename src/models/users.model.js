@@ -10,6 +10,11 @@ const Users = db.define('users', {
         allowNull: false,
         primaryKey: true
     },
+    avatar: {
+        type: DataTypes.STRING,
+        allowNull: null,
+        defaultValue: "https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png"
+    },
     firstname: {
         type: DataTypes.STRING(50),
         allowNull: false

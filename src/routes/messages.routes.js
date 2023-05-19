@@ -5,11 +5,15 @@ const {
     createMessage,
     updateMessage,
     deleteMessage,
-    getOneMessage
+    getOneMessage,
+    getAllMessagesInfo
 } = require('../controllers/messages.controller');
 
 //get all messages
 router.get('/api/messages', getAllMessages);
+
+//get all messages info
+router.get('/api/messages/info', getAllMessagesInfo);
 
 //create a new message
 router.post('/api/messages', createMessage);

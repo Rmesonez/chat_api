@@ -7,11 +7,15 @@ const {
     updateUser,
     deleteUser,
     getOneUser,
+    getAllUsersInfo
 } = require('../controllers/users.controller');
 
 
 //get all users
 router.get('/api/users', getAllUsers);
+
+//get all users info
+router.get('/api/users/info', getAllUsersInfo);
 
 //create a new user
 //router.post('/api/users', createUser);

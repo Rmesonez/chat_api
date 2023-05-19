@@ -18,7 +18,7 @@ const createType = async (req, res) => {
     const { type } = req.body;
     try {
         const newType = await Types.create({ type });
-        res.status(201).json(newType);
+        res.status(201).send();
     } catch (error) {
         return res.status(500).json({
             message: 'Something went wrong cannot create a Type',
@@ -33,7 +33,7 @@ const updateType = async (req, res) => {
             { type },
             { where: { id: req.params.id }
         });
-        res.status(202).json(updateType);
+        res.status(202).send();
     } catch (error) {
         return res.status(500).json({
             message: 'Something went wrong cannot update a Type',
@@ -44,9 +44,7 @@ const updateType = async (req, res) => {
 const deleteType = async (req, res) => {
     try {
         await Types.destroy({ where: { id: req.params.id } });
-        res.status(204).json({
-            message: 'Type deleted successfully',
-        });
+        res.status(204).send();
     } catch (error) {
         return res.status(500).json({
             message: 'Something went wrong cannot delete a Type',

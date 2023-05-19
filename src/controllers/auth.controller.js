@@ -18,9 +18,9 @@ const login = async (req, res) => {
                     user: user
                 }, process.env.SECRET_KEY, {
                     expiresIn: process.env.EXPIRES_IN
-                });
+                }, { algorithm: 'HS512' });
                 user.token = token;
-                delete user.password;
+                delete user.dataValues.password;
                 res.status(202).json({
                     user: user,
                     token: token
@@ -47,20 +47,15 @@ const login = async (req, res) => {
 const signup = async (req, res) => {
     try {
         let password = req.body.password = bcrypt.hashSync(req.body.password, Number.parseInt(process.env.ROUNDS));
-        const user = await Users.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            username: req.body.username,
-            email: req.body.email,
-            password: password
-        });
+        const {avatar, firstname, lastname, username, email} = req.body;
+        const user = await Users.create({avatar, firstname, lastname, username, email, password});
         const token = jwt.sign({
             user: user
         }, process.env.SECRET_KEY, {
             expiresIn: process.env.EXPIRES_IN
-            });
+            }, { algorithm: 'HS512' });
             user.token = token;
-            delete user.password;
+            delete user.dataValues.password;
             res.status(201).json(user);
     } catch (error) {
         res.status(400).json({

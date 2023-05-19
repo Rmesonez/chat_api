@@ -5,12 +5,16 @@ const {
     createConversation,
     updateConversation,
     deleteConversation,
-    getOneConversation
+    getOneConversation,
+    getAllConversationsInfo
 } = require('../controllers/conversations.controller');
 const auth = require('../middlewares/auth.middleware');
 
 //get all conversations
 router.get('/api/conversations', getAllConversations);
+
+//get all conversations info
+router.get('/api/conversations/info', getAllConversationsInfo);
 
 //create a new conversation
 router.post('/api/conversations', auth, createConversation);
