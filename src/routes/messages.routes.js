@@ -6,7 +6,8 @@ const {
     updateMessage,
     deleteMessage,
     getOneMessage,
-    getAllMessagesInfo
+    getAllMessagesInfo,
+    deleteAllMessages
 } = require('../controllers/messages.controller');
 const auth = require('../middlewares/auth.middleware');
 const validateMessage = require('../validators/messages.validators');
@@ -28,5 +29,9 @@ router.put('/api/messages/:id', validateMessage, updateMessage);
 
 //delete a message by id
 router.delete('/api/messages/:id', deleteMessage);
+
+//delete all messages from a conversation
+router.delete('/messages/:id', deleteAllMessages);
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ const getAllUsersConversations = async (req, res) => {
         res.status(200).json(getUsersConversations);
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong cannot get the UsersMessages',
+            message: 'Something went wrong cannot get the UsersConversations',
         });
     }
 }
@@ -19,7 +19,7 @@ const createUserConversation = async (req, res) => {
         res.status(201).send();
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong cannot create a UserMessage',
+            message: 'Something went wrong cannot create a UserConversation',
         });
     }
 }
@@ -34,7 +34,7 @@ const updateUserConversation = async (req, res) => {
         res.status(202).send();
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong cannot update a UserMessage',
+            message: 'Something went wrong cannot update a UserConversation',
         });
     }
 }
@@ -42,10 +42,10 @@ const updateUserConversation = async (req, res) => {
 const deleteUserConversation = async (req, res) => {
     try {
         await UsersConversations.destroy({ where: { id: req.params.id } });
-        res.status(204).sen();
+        res.status(204).send();
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong cannot delete a userMessage',
+            message: 'Something went wrong cannot delete a userConversation',
         });
     }
 }
@@ -58,10 +58,12 @@ const getOneUserConversation = async (req, res) => {
         res.status(200).json(getUserConversation);
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong cannot get the UserMessage',
+            message: 'Something went wrong cannot get the UserConversation',
         });
     }
 }
+
+
 
 module.exports = {
     getAllUsersConversations,

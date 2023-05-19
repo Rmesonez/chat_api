@@ -7,6 +7,12 @@ const getAllMessages = async (req, res) => {
     try {
         const getMessages = await Messages.findAll({
             attributes: ['id', 'content'],
+            include: [
+                {
+                    model: Users,
+                    attributes: ['id', 'username'],
+                },
+            ],
         });
         res.status(200).json(getMessages);
     } catch (error) {
@@ -109,11 +115,26 @@ const getAllMessagesInfo = async (req, res) => {
     }
 }
 
+const deleteAllMessages = async (req, res) => {
+    try {
+        await Messages.destroy({ where: { user_id: req.params.id } });
+        res.status(204).send();
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Something went wrong cannot delete all Messages',
+        });
+    }
+}
+
+
+
+
 module.exports = {
     getAllMessages,
     createMessage,
     updateMessage,
     deleteMessage,
     getOneMessage,
-    getAllMessagesInfo
+    getAllMessagesInfo,
+    deleteAllMessages
 }
