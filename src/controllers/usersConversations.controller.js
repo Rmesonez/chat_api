@@ -1,30 +1,26 @@
 const UsersConversations = require('../models/usersConversations.model');
 
-const getAllUsersConversations = async (req, res) => {
+const getAllUsersConversations = async (req, res, next) => {
     try {
         const getUsersConversations = await UsersConversations.findAll({
         });
         res.status(200).json(getUsersConversations);
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get the UsersConversations',
-        });
+        next(error);
     }
 }
 
-const createUserConversation = async (req, res) => {
+const createUserConversation = async (req, res, next) => {
     const { user_id, conversation_id } = req.body;
     try {
         const newUserConversation = await UsersConversations.create({ user_id, conversation_id });
         res.status(201).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot create a UserConversation',
-        });
+        next(error);
     }
 }
 
-const updateUserConversation = async (req, res) => {
+const updateUserConversation = async (req, res, next) => {
     const { user_id, conversation_id } = req.body;
     try {
         const updateUserConversation = await UsersConversations.update(
@@ -33,33 +29,27 @@ const updateUserConversation = async (req, res) => {
         });
         res.status(202).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot update a UserConversation',
-        });
+        next(error);
     }
 }
 
-const deleteUserConversation = async (req, res) => {
+const deleteUserConversation = async (req, res, next) => {
     try {
         await UsersConversations.destroy({ where: { id: req.params.id } });
         res.status(204).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot delete a userConversation',
-        });
+        next(error);
     }
 }
 
-const getOneUserConversation = async (req, res) => {
+const getOneUserConversation = async (req, res, next) => {
     try{
         const getUserConversation = await UsersConversations.findOne(
             { where: { id: req.params.id },
         });
         res.status(200).json(getUserConversation);
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get the UserConversation',
-        });
+        next(error);
     }
 }
 

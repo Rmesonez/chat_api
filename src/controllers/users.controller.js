@@ -4,32 +4,19 @@ const Messages = require('../models/messages.model');
 const Types = require('../models/types.model');
 
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
     try {
         const getUsers = await Users.findAll({
             attributes: ['id', 'avatar', 'firstname', 'lastname', 'username', 'email']
         });
         res.status(200).json(getUsers);
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get the Users',
-        });
+        next(error);
     }
 };
 
-// const createUser = async (req, res) => {
-//     const { firstname, lastname, username, email, password } = req.body;
-//     try {
-//         const newUser = await Users.create({ firstname, lastname, username, email, password, username, email, password });
-//         res.status(201).json(newUser);
-//     } catch (error) {
-//         return res.status(500).json({
-//             message: 'Something went wrong cannot create a User',
-//         });
-//     }
-// };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     const {avatar, firstname, lastname, username } = req.body;
     try {
         const updateUser = await Users.update(
@@ -38,24 +25,20 @@ const updateUser = async (req, res) => {
         });
         res.status(202).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot update a User',
-        });
+        next(error);
     }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     try {
         await Users.destroy({ where: { id: req.params.id } });
         res.status(204).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot delete a user',
-        });
+        next(error);
     }
 };
 
-const getOneUser = async (req, res) => {
+const getOneUser = async (req, res, next) => {
     try{
         const getUser = await Users.findOne(
             { where: { id: req.params.id },
@@ -85,13 +68,11 @@ const getOneUser = async (req, res) => {
         }
         res.status(200).json(getUser);
     }   catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get a User',
-        });
+        next(error);
     }
 };
 
-const getAllUsersInfo = async (req, res) => {
+const getAllUsersInfo = async (req, res, next) => {
     try {
         const getUsers = await Users.findAll({
             attributes: ['id', 'avatar', 'firstname', 'lastname', 'username', 'email'],
@@ -115,9 +96,7 @@ const getAllUsersInfo = async (req, res) => {
         });
         res.status(200).json(getUsers);
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get the Users',
-        });
+        next(error);
     }
 };
 

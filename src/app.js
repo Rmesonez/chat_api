@@ -1,34 +1,20 @@
 const express = require('express');
 const db = require('./database/database');
-const usersRoutes = require('./routes/users.routes.js');
-const messagesRoutes = require('./routes/messages.routes.js');
-const conversationsRoutes = require('./routes/conversations.routes.js');
-const typesRoutes = require('./routes/types.routes.js');
-const authRoutes = require('./routes/auth.routes.js');
-const usersConversationsRoutes = require('./routes/usersConversations.routes.js');
-const {
-    logError,
-    errorHandler
-} = require('./middlewares/errorHandler.middleware.js');
+const apiRoutes = require('./routes/index');
+const errorRoutes = require('./middlewares/index');
 require('dotenv').config();
 
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-
 //middlewares
 app.use(cors());
 app.use(express.json());
-app.use(usersRoutes, authRoutes, messagesRoutes, conversationsRoutes, typesRoutes, usersConversationsRoutes);
+apiRoutes(app);
+//error handler
+errorRoutes(app);
 
-app.use(logError, errorHandler);
-
-//404 handler
-app.use('*', (req, res) => res.status(404).json(
-    { 
-        message: 'The route you want to get is temporaly broken, please try again later.' 
-    }));
 
 async function testConnection() {
     try {

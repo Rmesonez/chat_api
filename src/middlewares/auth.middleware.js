@@ -5,18 +5,21 @@ const auth = (req, res, next) => {
     try {
         const token = req.headers['access-token'];
         if (!token) {
-            return res.status(401).json({
-                message: 'Authentication  failed'
-            });
+            return next({
+                status: 401,
+                name: 'TokenError',
+                message: 'No token provided'
+            })
         } 
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY, { algorithm: 'HS512' });
         req.user = verifyToken;
         next();
     } catch (error) {
-        res.status(401).json({
-            message: 'Authentication failed',
-            error: error
-        });
+        next({
+            status: 498,
+            name: 'TokenExpiredError',
+            message: error
+        })
     }
 }
 

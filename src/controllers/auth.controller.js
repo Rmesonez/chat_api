@@ -11,62 +11,45 @@ const login = async (req, res, next) => {
                 email: req.body.email
             }
         });
-        if (user) {
-            const equals = await bcrypt.compare(req.body.password, user.password);
-            if (equals) {
-                let token = jwt.sign({
-                    user: user
-                }, process.env.SECRET_KEY, {
-                    expiresIn: process.env.EXPIRES_IN
-                }, { algorithm: 'HS512' });
-                user.token = token;
-                delete user.dataValues.password;
-                res.status(202).json({
-                    user: user,
-                    token: token
-                });
-            } else {
-                return next({
-                    status: 400,
-                    message: 'Invalid data',
-                    error: 'Invalid password'
-                });
-            }
-        } else {
+        if(!user){
             return next({
                 status: 400,
-                message: 'email not exist',
-                error: 'Invalid email'
+                name: 'invalid email',
+                message: 'User not exist'
             });
         }
-    } catch (error) {
-        res.status(400).json({
-            message: 'Invalid data',
-            error
+        const equals = await bcrypt.compare(req.body.password, user.password);
+        if(!equals){
+            return next({
+                status: 400,
+                name: 'Invalid password',
+                message: 'The password does not match with user email'
+            });
+        }
+        let token = jwt.sign({
+            user: user
+        }, process.env.SECRET_KEY, {
+            expiresIn: process.env.EXPIRES_IN
+        }, { algorithm: 'HS512' });
+        user.token = token;
+        delete user.dataValues.password;
+        res.status(202).json({
+            user: user,
+            token: token
         });
-        console.log(error);
+    } catch (error) {
+        next(error);
     }
 }
 
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
     try {
         let password = req.body.password = await  bcrypt.hash(req.body.password, Number.parseInt(process.env.ROUNDS));
         const {avatar, firstname, lastname, username, email} = req.body;
         const user = await Users.create({avatar, firstname, lastname, username, email, password});
-        const token = jwt.sign({
-            user: user
-        }, process.env.SECRET_KEY, {
-            expiresIn: process.env.EXPIRES_IN
-            }, { algorithm: 'HS512' });
-            user.token = token;
-            delete user.dataValues.password;
-            res.status(201).json(user);
+            res.status(201).send();
     } catch (error) {
-        res.status(400).json({
-            message: 'Invalid data',
-            error
-        });
-        console.log(error);
+        next(error);
     }
 }
 

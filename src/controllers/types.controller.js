@@ -1,32 +1,27 @@
 const Types = require('../models/types.model');
 const Conversations = require('../models/conversations.model');
 
-const getAllTypes = async (req, res) => {
+const getAllTypes = async (req, res, next) => {
     try {
         const getTypes = await Types.findAll({
-            // attributes: [{ exclude: ['type_id']}],
         });
         res.status(200).json(getTypes);
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get the Types',
-        });
+        next(error);
     }
 }
 
-const createType = async (req, res) => {
+const createType = async (req, res, next) => {
     const { type } = req.body;
     try {
         const newType = await Types.create({ type });
         res.status(201).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot create a Type',
-        });
+        next(error);
     }
 }
 
-const updateType = async (req, res) => {
+const updateType = async (req, res, next) => {
     const { type } = req.body;
     try {
         const updateType = await Types.update(
@@ -35,24 +30,20 @@ const updateType = async (req, res) => {
         });
         res.status(202).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot update a Type',
-        });
+        next(error);
     }
 }
 
-const deleteType = async (req, res) => {
+const deleteType = async (req, res, next) => {
     try {
         await Types.destroy({ where: { id: req.params.id } });
         res.status(204).send();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot delete a Type',
-        });
+        next(error);
     }
 }
 
-const getOneType = async (req, res) => {
+const getOneType = async (req, res, next) => {
     try{
         const getType = await Types.findOne(
             { where: { id: req.params.id },
@@ -60,9 +51,7 @@ const getOneType = async (req, res) => {
         });
         res.status(200).json(getType);
     } catch (error) {
-        return res.status(500).json({
-            message: 'Something went wrong cannot get the Type',
-        });
+        next(error);
     }
 }
 
