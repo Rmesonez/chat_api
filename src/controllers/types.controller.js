@@ -4,6 +4,7 @@ const Conversations = require('../models/conversations.model');
 const getAllTypes = async (req, res, next) => {
     try {
         const getTypes = await Types.findAll({
+            include: [Conversations]
         });
         res.status(200).json(getTypes);
     } catch (error) {

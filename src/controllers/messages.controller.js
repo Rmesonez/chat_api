@@ -46,7 +46,7 @@ const updateMessage = async (req, res, next) => {
 const deleteMessage = async (req, res, next) => {
     try {
         await Messages.destroy({ where: { id: req.params.id } });
-        res.status(204).sen();
+        res.status(204).send();
     } catch (error) {
         next(error);
     }
