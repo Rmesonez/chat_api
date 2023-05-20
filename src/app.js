@@ -18,9 +18,6 @@ errorRoutes(app);
 
 async function testConnection() {
     try {
-        // await db.authenticate();
-        // console.log('Connection has been established successfully.');
-        // await db.sync({ force: true });
         app.listen(PORT, () => {
             console.log(`Server listening on port ${PORT}...`);
         });

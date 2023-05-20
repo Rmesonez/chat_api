@@ -33,7 +33,7 @@ const ormErrorHandler = (err, req, res, next) => {
         return res.status(400).json({
             name: err.name,
             message: err.message,
-            errors: err.errors
+            errors: err.errors.map(error => error.message)
         })
     }
     next(err);
