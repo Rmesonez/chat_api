@@ -17,3 +17,4 @@ const errorRoutes = (app) => {
         }));
 }
 
+module.exports = errorRoutes;
