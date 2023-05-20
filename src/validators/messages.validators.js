@@ -5,8 +5,6 @@ const validateMessage = [
     check('content', 'Content error')
         .exists()
         .withMessage('Content is required')
-        .isLength({ min: 1, max: 500 })
-        .withMessage('Content must be between 1 and 500 characters long')
         .isString()
         .withMessage('Content must be a string')
         .notEmpty()

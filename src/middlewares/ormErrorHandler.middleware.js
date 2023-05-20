@@ -26,14 +26,14 @@ const ormErrorHandler = (err, req, res, next) => {
         return res.status(409).json({
             name: err.name,
             message: err.message,
-            errors: err.errors.map( err => err.message)
+            errors: err.errors
         })
     }
     if(err instanceof ValidationError){
         return res.status(400).json({
             name: err.name,
             message: err.message,
-            errors: err.errors.map( err => err.message)
+            errors: err.errors
         })
     }
     next(err);
