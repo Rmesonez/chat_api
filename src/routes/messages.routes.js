@@ -25,7 +25,7 @@ router.post('/api/messages', auth, validateMessage, createMessage);
 router.get('/api/messages/:id', getOneMessage);
 
 //update a message by id
-router.put('/api/messages/:id', validateMessage, updateMessage);
+router.put('/api/messages/:id', updateMessage);
 
 //delete a message by id
 router.delete('/api/messages/:id', deleteMessage);

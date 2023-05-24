@@ -50,13 +50,13 @@ const getOneUser = async (req, res, next) => {
                         {
                             model: Types, attributes: ['id', 'type'],                            
                     },
-                    {
-                        model: Messages, attributes: ['id', 'content'],
-                        include: [
-                            {
-                                model: Users, attributes: ['id', 'username']
-                            }]
-                    }
+                    // {
+                    //     model: Messages, attributes: ['id', 'content'],
+                    //     include: [
+                    //         {
+                    //             model: Users, as: 'createdBy', attributes: ['id', 'username']
+                    //         }]
+                    // }
                 ] 
                 },
             ]

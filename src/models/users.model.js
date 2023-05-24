@@ -43,8 +43,8 @@ const Users = db.define('users', {
     timestamps: false
 });
 
-Users.hasMany(Messages, { foreignKey: 'user_id' });
+Users.hasMany(Messages, { as: 'createdBy' ,foreignKey: 'user_id' });
 
-Messages.belongsTo(Users, { foreignKey: 'user_id' });
+Messages.belongsTo(Users, { as: 'createdBy', foreignKey: 'user_id' });
 
 module.exports = Users;

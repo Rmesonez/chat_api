@@ -18,8 +18,6 @@ router.get('/api/users', getAllUsers);
 //get all users info
 router.get('/api/users/info', getAllUsersInfo);
 
-//create a new user
-//router.post('/api/users', createUser);
 
 //get a user by id
 router.get('/api/users/:id', getOneUser);

@@ -82,6 +82,7 @@ const getAllConversationsInfo = async (req, res, next) => {
                     attributes: ['content'],
                     include: [{
                         model: Users,
+                        as: 'createdBy',
                         attributes: [ 'username']
                 }]
             }
@@ -92,6 +93,17 @@ const getAllConversationsInfo = async (req, res, next) => {
         next(error);
     }
 }
+
+//create a conversation by type
+// const createConversationByType = async (req, res, next) => {
+//     const { title, type_id, user_id } = req.body;
+//     try {
+//         const newConversation = await Conversations.create({ title, type_id, user_id });
+//         res.status(201).send();
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 
 module.exports = {

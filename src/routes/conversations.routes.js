@@ -24,7 +24,7 @@ router.post('/api/conversations', auth, validateConversation, createConversation
 router.get('/api/conversations/:id', getOneConversation);
 
 //update a conversation by id
-router.put('/api/conversations/:id', validateConversation, updateConversation);
+router.put('/api/conversations/:id', updateConversation);
 
 //delete a conversation by id
 router.delete('/api/conversations/:id', deleteConversation);
